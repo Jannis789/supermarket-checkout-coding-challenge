@@ -1,6 +1,8 @@
 # supermarket checkout - coding challenge
 
-Checkout engine for the wambo supermarket
+Checkout engine for the supermarket
+
+My approach on the challenge is findable at ```fruitstore.js```
 
 ## Challenge Conditions
 
