@@ -40,8 +40,12 @@ class StoreController extends Controller {
         $productsToAdd = $request->except('_token');
         $amount = 0;
         foreach (array_keys($productsToAdd) as $productID) {
-            $amount = $productsToAdd[$productID];
-            $items[$productID] = $amount;
+            if (!isset($items[$productID])) {
+                $amount = $productsToAdd[$productID];
+                $items[$productID] = $amount;
+            } else {
+                $items[$productID] += $productsToAdd[$productID];
+            }
         }
         $this->cart['total'] += $amount;
         $this->cart['items'] = $items;
