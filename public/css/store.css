@@ -1,0 +1,35 @@
+/* Stil für den Items-Container */
+.items {
+    display: flex;
+    flex-wrap: wrap; /* Wenn die Elemente in mehreren Reihen angezeigt werden sollen */
+}
+
+/* Stil für jedes Produkt */
+.item {
+    width: 200px; /* Breite des einzelnen Produkts */
+    margin: 10px; /* Abstand zwischen den Produkten */
+    border: 1px solid #ccc; /* Umrandung für jedes Produkt */
+    padding: 10px; /* Innenabstand */
+
+    /* Um 'name' und 'price' vertikal zu stapeln */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Zentriert den Inhalt horizontal */
+}
+
+/* Stil für den Namen */
+.item .name {
+    font-weight: bold;
+    margin-bottom: 5px; /* Abstand zwischen Name und Preis */
+}
+
+.cart {
+    width: 100%;
+}
+.cart tr td  {
+    padding: 10px;
+    border: 2px solid #ccc;
+}
+.cart tr th  {
+    border: 2px solid #ccc;
+}
