@@ -35,7 +35,7 @@
                     <tr>
                         <td>{{ $products[$key]['name'] }}</td>
                         <td>{{ $cart['items'][$key] }}</td>
-                        <td>{{ $products[$key]['price'] * $cart['items'][$key] }}€</td>
+                        <td>{{ $products[$key]['priceCalc']($cart['items'][$key]) }}€</td>
                     </tr>
                     @endforeach
                 @endif
