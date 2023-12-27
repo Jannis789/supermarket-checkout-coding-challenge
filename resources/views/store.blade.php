@@ -31,21 +31,27 @@
                 <th>Price</th>
             </tr>
                 @if ($cart['total'] > 0)
+                    @php
+                        $totalPrice = 0;
+                    @endphp
                     @foreach (array_keys($cart['items']) as $key) <!-- iteriert jedes element der Schlüßel von $cart['items'] und gibt diese als Variable key wieder -->
                     <tr>
-                        <td>{{ $products[$key]['name'] }}</td>
-                        <td>{{ $cart['items'][$key] }}</td>
-                        <td>{{ $products[$key]['priceCalc']($cart['items'][$key]) }}€</td>
+                        <td>{{ $productName = $products[$key]['name'] }}</td>
+                        <td>{{ $amount = $cart['items'][$key] }}</td>
+                        <td>{{ $itemPrice = $products[$key]['priceCalc']($cart['items'][$key]) }}€</td>
+                        @php
+                            $totalPrice += $itemPrice;
+                        @endphp
                     </tr>
                     @endforeach
                 @endif
             <tr>
                 @if ($cart['total'] > 0)
-                    <td colspan="2"></td>
-                    <td>hier kommt der Gesamtbetrag hin</td>
+                    <td><b>Total:</b></td>
+                    <td>{{ $cart['total'] }}</td>
+                    <td>{{ $totalPrice }}€</td>
                 @else
-                    <td colspan="2"></td>
-                    <td>Cart is Empty</td>
+                    <td colspan="3">Cart is Empty</td>
                 @endif
             </tr>
         </table>
