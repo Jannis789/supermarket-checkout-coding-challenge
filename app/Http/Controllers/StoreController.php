@@ -53,16 +53,17 @@ class StoreController extends Controller {
         $this->cart = Session::get('cart', $this->cart);      
         $items = $this->cart['items'];
         $productsToAdd = $request->except('_token');
-        $amount = 0;
+        $totalAmount = 0;
         foreach (array_keys($productsToAdd) as $productID) {
             $amount = $productsToAdd[$productID];
+            $totalAmount += $amount;
             if (!isset($items[$productID])) {
                 $items[$productID] = $amount;
             } else {
                 $items[$productID] += $productsToAdd[$productID];
             }
         }
-        $this->cart['total'] += $amount;
+        $this->cart['total'] += $totalAmount;
         $this->cart['items'] = $items;
         Session::put('cart', $this->cart);
         return view('store', ['products' => $this->products, 'cart' => $this->cart]);
