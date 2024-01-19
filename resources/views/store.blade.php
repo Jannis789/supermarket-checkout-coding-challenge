@@ -20,7 +20,8 @@
                     @endforeach
                 </div>
                 <center>
-                    <input type="submit" onclick="filterRequest()" value="add To Cart"></button>
+                    <input type="submit" name="addToCart" onclick="filterRequest()" value="add Items"></button>
+                    <input type="submit" name="removeFromCart" onclick="filterRequest()" value="remove Items"></button>
                 </center>
             </form>
         <h1>Cart:</h1>
@@ -36,12 +37,14 @@
                     @endphp
                     @foreach (array_keys($cart['items']) as $key) <!-- iteriert jedes element der Schlüßel von $cart['items'] und gibt diese als Variable key wieder -->
                     <tr>
-                        <td>{{ $productName = $products[$key]['name'] }}</td>
-                        <td>{{ $amount = $cart['items'][$key] }}</td>
-                        <td>{{ $itemPrice = $products[$key]['priceCalc']($cart['items'][$key]) }}€</td>
-                        @php
-                            $totalPrice += $itemPrice;
-                        @endphp
+                        @if ($cart['items'][$key] > 0) 
+                            <td>{{ $productName = $products[$key]['name'] }}</td>
+                            <td>{{ $amount = $cart['items'][$key] }}</td>
+                            <td>{{ $itemPrice = $products[$key]['priceCalc']($cart['items'][$key]) }}€</td>
+                            @php
+                                $totalPrice += $itemPrice;
+                            @endphp
+                        @endif
                     </tr>
                     @endforeach
                 @endif
