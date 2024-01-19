@@ -8,6 +8,7 @@ use App\Models\items;
 class StoreController extends Controller {
     public function __construct() {
         $this->products = items::getProducts();
+        
         $this->cart = [
             'total' => 0,
             'items' => []
@@ -16,15 +17,15 @@ class StoreController extends Controller {
     
     public function index() {
         $this->cart = Session::get('cart', $this->cart);
+        $this->products = items::getProducts();
         return view('store', ['products' => $this->products, 'cart' => $this->cart]);
     }
     
     public function handleRequest(Request $request) {
         $productsToAdd = $request->except('_token', 'addToCart', 'removeFromCart');
-        if (empty($productsToAdd)) {
-            // return view('store', ['products' => $this->products, 'cart' => $this->cart]);
-        }
-        if ($request['addToCart']) {
+        if ($request['addProduct']) {
+            return $this->addProduct($request);
+        } elseif ($request['addToCart']) {
             return $this->addToCart($request);
         } else {
             return $this->removeFromCart($request);
@@ -59,7 +60,7 @@ class StoreController extends Controller {
             if (isset($items[$productID])) {
                 $items[$productID] -= $productsToBeRemoved[$productID];
                 $this->cart['total'] -= $productsToBeRemoved[$productID];
-                if ($items[$productID] == 0) {
+                if ($items[$productID] >= 0) {
                     unset($items[$productID]);
                 }
             }
@@ -74,4 +75,11 @@ class StoreController extends Controller {
         Session::flush();
         return redirect()->route('store'); 
     }
+
+    public function addProduct(Request $request) {
+        $productValuesToBeAdded = $request->except('_token', 'addProduct');
+        items::createProduct($productValuesToBeAdded['productID'], $productValuesToBeAdded['productName'], $productValuesToBeAdded['productPrice']);
+        return view('store', ['products' => $this->products, 'cart' => $this->cart]);
+    }
+
 }

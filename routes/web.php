@@ -8,3 +8,5 @@ Route::get('/', [StoreController::class, 'index'])->name('store');
 Route::post('/', [StoreController::class, 'handleRequest'])->name('handleRequest');
 
 Route::post('/flush', [StoreController::class, 'clearCart'])->name('clearCart');
+
+Route::get('/flush', [StoreController::class, 'clearCart'])->name('clearCart');

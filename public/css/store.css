@@ -33,3 +33,7 @@
 .cart tr th  {
     border: 2px solid #ccc;
 }
+
+.add-products-form * {
+    display: inline;
+}

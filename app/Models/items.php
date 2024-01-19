@@ -1,19 +1,16 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Session;
 
-class items extends Model
-{
-    protected $fillable = [
-        'id', 'name', 'price'
-    ];
+class items extends Model {
 
-    public static function getProducts()
-    {
-        return [
+    protected static $products;
+
+    public static function initializeProducts() {
+        self::$products = [
             'fr1' => [
                 'id' => 'fr1',
                 'name' => 'Fruit Tea',
@@ -45,6 +42,40 @@ class items extends Model
                 }
             ]
         ];
+        self::createProduct('bn1', 'Banana', 2.76);
+        self::createProduct('bn3', 'Banana2', 22.76);
+    }
+
+    
+    public static function createProduct($id, $name, $price) {
+
+        $products = self::getProducts();
+
+        $func = function ($amount) use ($price) {
+            return $amount * $price;
+        };
+    
+        $products[$id] = [
+            'id' => $id,
+            'name' => $name,
+            'price' => $price,
+            'priceCalc' => $func
+        ];
+        
+        self::$products = $products;
+        // Session::put('products', $products); // FEHLER: Serialization of 'Closure' is not allowed
+    }
+    
+    
+    
+    
+    public static function getProducts() {
+        if (Session::has('products')) self::$products = Session::get('products', self::$products);
+        if (!isset(self::$products)) {
+            self::initializeProducts();
+        }
+        return self::$products;
     }
 }
+
 

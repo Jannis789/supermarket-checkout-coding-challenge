@@ -5,6 +5,22 @@
         <link href="{{ asset('css/store.css') }}" rel="stylesheet">
     </head>
     <body>
+    <div class="add-products-form">
+        <h3>Add a Product:</h3>
+            <form action="/" method="post">
+                @csrf
+                <label for="productID">ID:</label>
+                <input type="text" id="productID" name="productID" required>
+
+                <label for="productName">Name:</label>
+                <input type="text" id="productName" name="productName" required>
+
+                <label for="productPrice">Price:</label>
+                <input type="number" id="productPrice" name="productPrice" required>
+
+                <input type="submit" name="addProduct" value="Add">
+            </form>
+        </div>
         <h1>Products:</h1>
        
         <div style="display: table-cell">
